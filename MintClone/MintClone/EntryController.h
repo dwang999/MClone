@@ -14,10 +14,6 @@ class EntryController
 {
 
 	public:
-		//EntryController();
-		//EntryController(std::vector<Entry> entryList);
-		//EntryController(const EntryController& other);
-		//~EntryController();
 
 		void push_back(time_t date, std::string category, std::string subCategory, 
 			std::string description, float amount);

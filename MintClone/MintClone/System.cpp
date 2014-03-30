@@ -2,22 +2,6 @@
 
 #include "System.h"
 
-// Constructors and Destructors
-System::System()
-{
-
-}
-
-System::System(const System&)
-{
-
-}
-
-System::~System()
-{
-
-}
-
 
 // Methods
 bool System::Initialize(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
@@ -33,7 +17,7 @@ bool System::Initialize(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmd
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
-    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
 	wcex.lpszMenuName = NULL;
 	wcex.lpszClassName  = szWindowClass;
@@ -56,56 +40,58 @@ bool System::Initialize(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmd
 		MessageBox(NULL, _T("Call to CreateWindow failed!"), szTitle, NULL);
 		return false;
 	}
+	
+	input = Input();
+	graphics = Graphics();
 
 
 	ShowWindow(hWnd, iCmdshow);
-    UpdateWindow(hWnd);
-
+	UpdateWindow(hWnd);
 	return true;
 }
 
 void System::Shutdown()
 {
-	
 	ApplicationHandle = NULL;
 }
 
 int System::Run()
 {
 	// Main message loop:
-    MSG msg;
-    while (GetMessage(&msg, NULL, 0, 0))
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
+	MSG msg;
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
 
 	return (int) msg.wParam;
 }
 
 LRESULT System::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    PAINTSTRUCT ps;
-    HDC hdc;
-    TCHAR greeting[] = _T("Welcome to Mint!");
+	PAINTSTRUCT ps;
+	HDC hdc;
 	switch (message)
-    {
-		
+	{
 		case WM_PAINT:
+		{
 			hdc = BeginPaint(hWnd, &ps);
-
-			// Here your application is laid out.
-			// For this introduction, we just print out "Hello, World!"
-			// in the top left corner.
-			TextOut(hdc, 5, 5, greeting, _tcslen(greeting));
-			// End application-specific layout section.
-
+			graphics.draw(hWnd, hdc);
 			EndPaint(hWnd, &ps);
-			break;			
-		default:
+			break;		
+		}
+	case WM_COMMAND:
+		{
+			input.WMCOMMAND(wParam, hWnd);
+			break;
+		}
+	default:
+		{
 			return DefWindowProc(hWnd, message, wParam, lParam);
 			break;
-    }
+		}
+	}
 
 	return 0;
 }
@@ -116,14 +102,14 @@ LRESULT System::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 // Global Methods
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    switch (message)
-    {
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			break;
-		default:
-			return ApplicationHandle -> MessageHandler(hWnd, message, wParam, lParam);
-    }
+	switch (message)
+	{
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return ApplicationHandle -> MessageHandler(hWnd, message, wParam, lParam);
+	}
 
-    return 0;
+	return 0;
 }

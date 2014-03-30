@@ -7,14 +7,14 @@
 #include <Windows.h>
 #include <tchar.h>
 
+#include "Graphics.h"
+#include "Input.h"
+
 
 
 
 class System {
 	public:
-		System();
-		System(const System&);
-		~System();
 		bool Initialize(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
 			PSTR pScmdline, int iCmdshow);
 		void Shutdown();
@@ -22,6 +22,8 @@ class System {
 		LRESULT MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	private:
+		Graphics graphics;
+		Input input;
 };
 
 

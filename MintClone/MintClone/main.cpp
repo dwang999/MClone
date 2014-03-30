@@ -6,7 +6,6 @@
 
 // MY CLASS INCLUDES
 #include "System.h"
-#include "EntryController.h"
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
@@ -22,11 +21,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	result = system->Run();
 	
-	EntryController entryController = EntryController();
- 	entryController.load("hi");
-	
-	EntryController entryController2 = EntryController(entryController);
-
 
 	// Clean Up
 	system->Shutdown();

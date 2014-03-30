@@ -5,32 +5,13 @@
 namespace{
 
 	static const std::string entryFileName = "-entries.txt";
-
-	//std::vector<std::string> splitString(std::string str)
-	//{
-	//	std::string delim = "/";
-	//	std::vector<std::string> tokens;
-	//	tokens.reserve(NUMOFVARIABLESINENTRY);
-
-	//	unsigned int delimPos = str.find(delim);
-	//	int start = 0;
-	//	while (delimPos != std::string::npos)
-	//	{
-	//		std::string token = str.substr(start, delimPos - start);
-	//		start = delimPos + 1;
-	//		delimPos = str.find(delim, start);
-	//		tokens.push_back(token);
-	//	}
-
-	//	return tokens;
-	//}
-
+	
 	void parseTokens(EntryController *entry, std::string str)
 	{	
+		// Get Tokens
 		std::string delim = "/";
 		std::vector<std::string> tokens;
 		tokens.reserve(NUMOFVARIABLESINENTRY);
-
 		unsigned int delimPos = str.find(delim);
 		int start = 0;
 		while (delimPos != std::string::npos)
@@ -45,7 +26,8 @@ namespace{
 		{
 			throw std::exception("EntryController.cpp::parseTokens : tokens has incorrect size() for parsing");
 		}
-
+		
+		// Parse tokens 
 		std::time_t date;
 		std::string category;
 		std::string subCategory;
@@ -78,28 +60,6 @@ namespace{
 		entry -> push_back(date, category, subCategory, description, amount);
 	}
 }
-
-
-// Constructors and Destructors
-//EntryController::EntryController()
-//{
-//}
-//
-//EntryController::EntryController(std::vector<Entry> entries)
-//{
-//	this -> entries = entries;
-//}
-//
-////EntryController::EntryController(const EntryController& other) : entries(other.entries)
-////{
-////
-////}
-//
-//EntryController::~EntryController()
-//{
-//
-//}
-
 
 // Methods
 void EntryController::push_back(time_t date, std::string category, std::string subCategory, 
